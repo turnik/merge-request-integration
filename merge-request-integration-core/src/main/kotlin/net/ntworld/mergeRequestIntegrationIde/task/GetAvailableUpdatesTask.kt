@@ -5,7 +5,7 @@ import com.intellij.openapi.progress.ProgressManager
 import com.intellij.openapi.progress.Task
 import com.intellij.openapi.progress.impl.BackgroundableProcessIndicator
 import com.intellij.openapi.project.Project
-import net.ntworld.mergeRequestIntegration.update.UpdateManager
+import net.ntworld.mergeRequestIntegration.update.PluginUpdatesUtil
 
 class GetAvailableUpdatesTask(
     ideaProject: Project,
@@ -22,7 +22,7 @@ class GetAvailableUpdatesTask(
 
     override fun run(indicator: ProgressIndicator) {
         try {
-            listener.dataReceived(UpdateManager.getAvailableUpdates())
+            listener.dataReceived(PluginUpdatesUtil.getAvailableUpdates())
         } catch (exception: Exception) {
             listener.onError(exception)
         }

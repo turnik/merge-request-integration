@@ -18,6 +18,8 @@
         <projectService serviceInterface="net.ntworld.mergeRequestIntegrationIde.service.ProjectService"
                         serviceImplementation="net.ntworld.mergeRequestIntegrationIdeEE.ProjectServiceImpl"/>
 
+        <applicationService serviceImplementation="net.ntworld.mergeRequestIntegrationIde.internal.update.PluginUpdatesService"/>
+
         <projectConfigurable id="merge-request-integration-ee"
                              displayName="Merge Request Integration"
                              instance="net.ntworld.mergeRequestIntegrationIdeEE.Configuration"/>

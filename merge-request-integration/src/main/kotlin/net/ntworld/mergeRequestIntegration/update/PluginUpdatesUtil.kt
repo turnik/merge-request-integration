@@ -8,13 +8,14 @@ import kotlinx.serialization.json.JsonConfiguration
 import kotlinx.serialization.list
 import java.util.*
 
-object UpdateManager {
+object PluginUpdatesUtil {
+
     private const val CURRENT_VERSION = "2019.3.3"
     private const val METADATA_URL = "https://nhat-phan.github.io/updates/merge-request-integration/metadata.json"
-    private const val CHECK_INTERVAL = 3600000 // Every 1 hour
+    private const val CHECK_INTERVAL = 3600000 // Every 1 hour  todo: remove
 
     private val myJson: Json = Json(JsonConfiguration.Stable.copy(strictMode = false))
-    private var myLastCheckDate : Date? = null
+    private var myLastCheckDate: Date? = null
 
     fun shouldGetAvailableUpdates(): Boolean {
         val lastCheck = myLastCheckDate

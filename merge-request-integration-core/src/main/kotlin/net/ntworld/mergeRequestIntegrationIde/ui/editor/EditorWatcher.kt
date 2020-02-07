@@ -9,7 +9,7 @@ import com.intellij.openapi.wm.ToolWindow
 import com.intellij.openapi.project.Project as IdeaProject
 import com.intellij.testFramework.LightVirtualFile
 import com.intellij.ui.content.ContentFactory
-import net.ntworld.mergeRequestIntegration.update.UpdateManager
+import net.ntworld.mergeRequestIntegration.update.PluginUpdatesUtil
 import net.ntworld.mergeRequestIntegrationIde.service.ProjectService
 import net.ntworld.mergeRequestIntegrationIde.task.GetAvailableUpdatesTask
 import net.ntworld.mergeRequestIntegrationIde.ui.toolWindowTab.UpdateInfoTab
@@ -77,7 +77,7 @@ class EditorWatcher private constructor(
     }
 
     private fun checkAvailableUpdates() {
-        if (!UpdateManager.shouldGetAvailableUpdates()) {
+        if (!PluginUpdatesUtil.shouldGetAvailableUpdates()) {
             return
         }
         GetAvailableUpdatesTask(ideaProject, myGetAvailableUpdatesListener).start()
