@@ -13,11 +13,18 @@ import net.ntworld.mergeRequestIntegration.provider.gitlab.request.GitlabGetMRDi
 import net.ntworld.mergeRequestIntegration.provider.gitlab.transformer.GitlabCommentTransformer
 import net.ntworld.mergeRequestIntegration.provider.gitlab.transformer.GitlabDiscussionTransformer
 import org.gitlab4j.api.models.Position
+import java.util.logging.Level
+import java.util.logging.Logger
 
 class GitlabCommentApi(
     private val infrastructure: Infrastructure,
     private val credentials: ApiCredentials
 ) : CommentApi {
+
+    companion object {
+        private val log: Logger = Logger.getLogger("GitlabCommentApi")
+    }
+
     override fun getAll(project: Project, mergeRequestId: String): List<Comment> {
         val request = GitlabGetMRDiscussionsRequest(
             credentials = credentials,
@@ -63,6 +70,8 @@ class GitlabCommentApi(
     }
 
     override fun create(project: Project, mergeRequestId: String, body: String, position: CommentPosition?) {
+
+        //fixme: what a hell is going on here?
         if (null === position) {
             val command = GitlabCreateNoteCommand(
                 credentials = credentials,
@@ -77,19 +86,20 @@ class GitlabCommentApi(
                 body = body,
                 position = buildFirstAttemptPosition(position)
             ) {
-                tryCreateNoteCommand(
-                    mergeRequestInternalId = mergeRequestId.toInt(),
-                    body = body,
-                    position = buildSecondAttemptPosition(position)
-                ) {
-                    tryCreateNoteCommand(
-                        mergeRequestInternalId = mergeRequestId.toInt(),
-                        body = body,
-                        position = buildThirdAttemptPosition(position)
-                    ) {
-                        throw it
-                    }
-                }
+                log.log(Level.WARNING, "Error on creating new comment", it)
+//                tryCreateNoteCommand(
+//                    mergeRequestInternalId = mergeRequestId.toInt(),
+//                    body = body,
+//                    position = buildSecondAttemptPosition(position)
+//                ) {
+//                    tryCreateNoteCommand(
+//                        mergeRequestInternalId = mergeRequestId.toInt(),
+//                        body = body,
+//                        position = buildThirdAttemptPosition(position)
+//                    ) {
+//                        throw it
+//                    }
+//                }
             }
         }
     }

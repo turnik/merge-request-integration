@@ -1,4 +1,24 @@
 package net.ntworld.mergeRequestIntegrationIde.comments.ui
 
-class SimpleEventListener {
+import com.intellij.openapi.Disposable
+import com.intellij.util.EventDispatcher
+import java.util.*
+
+interface SimpleEventListener : EventListener {
+
+    fun eventOccurred()
+
+    companion object {
+        fun addDisposableListener(
+                dispatcher: EventDispatcher<SimpleEventListener>,
+                disposable: Disposable,
+                listener: () -> Unit
+        ) {
+            dispatcher.addListener(object : SimpleEventListener {
+                override fun eventOccurred() {
+                    listener()
+                }
+            }, disposable)
+        }
+    }
 }
